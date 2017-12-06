@@ -1,38 +1,40 @@
-# -*- coding: utf-8 -*-
+    # -*- coding: utf-8 -*-
 """
 Created on Tue Dec  5 12:41:42 2017
 
 @author: Ben
 """
-from flask import Flask
+from flask import Flask, render_template
 from netCDF4 import Dataset
 app=Flask(__name__)
 
 import os
+global nc_items
 items = os.listdir ("satdata")
+nc_items = []
 
 @app.route("/", methods=["GET"])
 def filedisplay():
-    for file in items:
+    for file in items:   
         if file.endswith("nc"):
-            items.append(file)         
-    return(items)
+            nc_items.append(file)         
+    return render_template("Index_Template.html", nc_items=nc_items,file=file)
 
-@app.route("/data",methods=["GET"])
+@app.route("/data/<file>")
 def printdata(file):
-    dataset = Dataset("satdata\A2017332.L3m_DAY_KD490_Kd_490_4km.nc")
+    filepath="satdata" + str(chr(92)) + (nc_items[int(file)]) 
+    dataset = Dataset(filepath)
     f = dataset.dimensions.keys()
-    data=[]
+    data = []
     data.append(f)
-    data.append("\n")
     for item in f:
         data.append(dataset.dimensions[str(item)])
-        data.append("\n")
     g = dataset.variables.keys()
     data.append(g)
-    data.append("\n")
     for item in g:
         data.append(dataset.variables[item])
-    return data
-filedisplay()
-printdata(1)
+    return str(data)
+
+for file in items:   
+    if file.endswith("nc"):
+        nc_items.append(file)
