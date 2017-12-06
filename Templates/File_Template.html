@@ -6,13 +6,23 @@
     <meta name="dcterms.created" content="Wed, 06 Dec 2017 22:22:56 GMT">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <title>{{File}}</title>
+    <title>NetCDF File Content.</title>
     
     <!--[if IE]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   </head>
   <body>
-  {data}
+  <h1>NetCDF File Content</h1>
+  <p></p>
+  <h5>Dimensions</h5>
+  {% for item in g %}
+    <li><a href="{{ url_for('printdimesion', file=file, dimension=item) }}">{{item}}</a></li>
+  {% endfor %}
+  <p></p>
+  <h5>Variables</h5>
+  {% for item in f %}
+    <li><a href="{{ url_for('printvariable', file=file, variable=item) }}>{{item}}</a></li>
+	{% endfor %}
   </body>
 </html>

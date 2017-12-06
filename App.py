@@ -9,7 +9,7 @@ from netCDF4 import Dataset
 app=Flask(__name__)
 
 import os
-global nc_items
+global nc_items, dataset
 items = os.listdir ("satdata")
 nc_items = []
 
@@ -25,16 +25,23 @@ def printdata(file):
     filepath="satdata" + str(chr(92)) + (nc_items[int(file)]) 
     dataset = Dataset(filepath)
     f = dataset.dimensions.keys()
-    data = []
-    data.append(f)
-    for item in f:
-        data.append(dataset.dimensions[str(item)])
     g = dataset.variables.keys()
-    data.append(g)
-    for item in g:
-        data.append(dataset.variables[item])
-    return str(data)
+    return render_template("File_Template.html", g=g, file=file, f=f)
 
 for file in items:   
     if file.endswith("nc"):
         nc_items.append(file)
+
+@app.route("/data/<file>/<dimension>")
+def printdimesion(file, dimension):
+    filepath="satdata" + str(chr(92)) + (nc_items[int(file)]) 
+    dataset = Dataset(filepath)
+    dimension_data=dataset.dimensions[dimension]
+    return render_template("Dimension_Template.html",dimension_data=dimension_data)
+
+@app.route("/data/<file>/<variable>")
+def printvariable(file, variable):
+    filepath="satdata" + str(chr(92)) + (nc_items[int(file)]) 
+    dataset = Dataset(filepath)
+    variable_data=dataset.variables[variable]
+    return render_template("Variable_Template.html",variable_data=variable_data)
