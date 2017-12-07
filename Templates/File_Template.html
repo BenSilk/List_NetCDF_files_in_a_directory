@@ -15,14 +15,17 @@
   <body>
   <h1>NetCDF File Content</h1>
   <p></p>
-  <h5>Dimensions</h5>
-  {% for item in g %}
-    <li><a href="{{ url_for('printdimesion', file=file, dimension=item) }}">{{item}}</a></li>
-  {% endfor %}
-  <p></p>
-  <h5>Variables</h5>
-  {% for item in f %}
-    <li><a href="{{ url_for('printvariable', file=file, variable=item) }}>{{item}}</a></li>
+  <h4>Attributes of the File's Variables:</h4>
+  {% for var in dataset.variables.keys() %}
+        <p></p>
+		<p></p>
+		<h6>{{var}}</h6>
+		<p></p> 
+        {% set var1 = dataset.variables[var] %}
+        {% for attr in var1.ncattrs() %}
+		   <p></p>
+           {{attr, "=", var1[attr]}}
+		{% endfor %}
 	{% endfor %}
   </body>
 </html>

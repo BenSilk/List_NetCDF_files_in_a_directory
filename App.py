@@ -21,27 +21,13 @@ def filedisplay():
     return render_template("Index_Template.html", nc_items=nc_items,file=file)
 
 @app.route("/data/<file>")
+@app.route("/data/<file>")
 def printdata(file):
     filepath="satdata" + str(chr(92)) + (nc_items[int(file)]) 
     dataset = Dataset(filepath)
-    f = dataset.dimensions.keys()
-    g = dataset.variables.keys()
-    return render_template("File_Template.html", g=g, file=file, f=f)
+    return render_template("File_Template.html", dataset=dataset)
 
 for file in items:   
     if file.endswith("nc"):
         nc_items.append(file)
 
-@app.route("/data/<file>/<dimension>")
-def printdimesion(file, dimension):
-    filepath="satdata" + str(chr(92)) + (nc_items[int(file)]) 
-    dataset = Dataset(filepath)
-    dimension_data=dataset.dimensions[dimension]
-    return render_template("Dimension_Template.html",dimension_data=dimension_data)
-
-@app.route("/data/<file>/<variable>")
-def printvariable(file, variable):
-    filepath="satdata" + str(chr(92)) + (nc_items[int(file)]) 
-    dataset = Dataset(filepath)
-    variable_data=dataset.variables[variable]
-    return render_template("Variable_Template.html",variable_data=variable_data)
