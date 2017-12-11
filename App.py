@@ -27,6 +27,7 @@ def printdata(file):
     dataset = Dataset(filepath)
     return render_template("File_Template.html", dataset=dataset)
 
+
 for file in items:   
     if file.endswith("nc"):
         nc_items.append(file)
