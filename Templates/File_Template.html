@@ -6,27 +6,16 @@
     <meta name="dcterms.created" content="Wed, 06 Dec 2017 22:22:56 GMT">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <title>NetCDF File Content.</title>
+    <title>{{satfile}}.</title>
     
     <!--[if IE]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   </head>
   <body>
-  <h1>NetCDF File Content</h1>
+  <h1>{{satfile}}</h1>
   <p></p>
-  <h5>Dimensions</h5>
-  {% for item in f %}
-	 {{dataset.dimensions[item]}}
-	 <p></p>
-  {% endfor %}
-	<p></p>
+  {{jsn|tojson_prettyprint}}
   <p></p>
-  <h5>Variables</h5>
-  {% for item in g %}
-	 {{dataset.variables[item]}}
-	 <p></p>
-  {% endfor %}
-	<p></p>
   </body>
 </html>
